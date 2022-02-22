@@ -87,18 +87,20 @@ export default {
   },
   methods: {
     async search() {
-      const url = 'https://zsearch-api.becom.co.jp/'
-      const res = await this.$axios.$post(url, {
-        path: 'search',
-        method: 'like',
-        params: {
-          code: this.form.code.trim(),
-          pref: this.form.pref.trim(),
-          city: this.form.city.trim(),
-          town: this.form.town.trim(),
-        },
-        apikey: 'becom',
-      })
+      const res = await this.$axios.$post(
+        '/',
+        {
+          path: 'search',
+          method: 'like',
+          params: {
+            code: this.form.code.trim(),
+            pref: this.form.pref.trim(),
+            city: this.form.city.trim(),
+            town: this.form.town.trim(),
+          },
+          apikey: 'becom',
+        }
+      )
       if (res.error) {
         this.res = res.error
       }
