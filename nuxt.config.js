@@ -24,7 +24,7 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [{ src: '~/plugins/api.js' }],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -45,10 +45,15 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: 'https://zsearch-api.becom.co.jp/', // ★ 追加 4.
+    baseURL: process.env.AUTH_URL,
     credentials: true,
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+  env: {
+    mode: process.env.BEAUTH_MODE || 'local',
+    authURL: process.env.AUTH_URL || 'http://localhost:3000/',
+    zsearchURL: process.env.ZSEARCH_URL || 'http://localhost:3010/',
+  },
 }
