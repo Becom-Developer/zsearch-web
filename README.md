@@ -4,13 +4,55 @@
 
 ## Setup
 
+事前に`nvm`を使えるようにしておき指定バージョンのnode.jsを使えるように
+
+git clone にてソースコードを配置後プロジェクト配下にて指定のモジュールをインストール
+
+```zsh
+npm install
+```
+
+## Work
+
+ローカル開発時の起動方法など
+
+web, api ともにローカル起動
+
+```zsh
+npm run dev-local
+```
+
+公開環境へデプロイ
+
+```zsh
+npm run generate-prod
+scp -r ~/github/zsearch-web/dist/ becom2022@becom2022.sakura.ne.jp:~/www/zsearch-web/
+```
+
+## Memo
+
+### Environment
+
+初動時の環境構築に関するメモ
+
 ```text
 ローカル環境 node.js / nvm が使える前提
 echo '16.14.0' >> .nvmrc
 npm init nuxt-app zsearch-web
-mv -n zsearch-web/* zsearch-web/.[^\.]* .
+mv -n zsearch-web/* .
+mv -n zsearch-web/.[^\.]* .
 rm -r zsearch-web
 npm run dev
+```
+
+公開環境
+
+```sh
+# 初回のみ公開環境でディレクトを作成しておく
+ssh becom2022@becom2022.sakura.ne.jp
+mkdir ~/www/zsearch-web
+# 公開環境へ `scp` コマンドで送信
+scp -r ~/github/zsearch-web/dist/ becom2022@becom2022.sakura.ne.jp:~/www/zsearch-web/
 ```
 
 ## Build Setup
