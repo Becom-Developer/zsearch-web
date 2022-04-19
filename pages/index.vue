@@ -22,10 +22,11 @@
               :id="`type-code`"
               v-model="code"
               :type="`text`"
+              :readonly="true"
             ></b-form-input>
           </b-col>
         </b-row>
-        <p>{{ code }}</p>
+        <!-- <p>{{ code }}</p> -->
         <!-- <p>{{ zip }}</p> -->
         <b-row class="my-1">
           <b-col class="m-0 p-0 text-center">
@@ -230,8 +231,6 @@ export default {
         code6: { val: 10, isRead: true },
         code7: { val: 10, isRead: true },
       },
-      value: 0,
-      // days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
       days: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '※'],
       options: [
         { value: '', text: '指定しない' },
@@ -307,112 +306,127 @@ export default {
     dayFormatter(value) {
       return this.days[value]
     },
+    addCode(code, zipCode) {
+      if (zipCode.isRead) {
+        return code
+      }
+      let val = zipCode.val
+      if (zipCode.val >= 10) {
+        val = ''
+      }
+      code = code + val.toString()
+      return code
+    },
+    multiAddCode(firstCode, codeNames) {
+      let code = firstCode
+      for (const codeName of codeNames) {
+        code = this.addCode(code, this.zip[codeName])
+      }
+      return code
+    },
+    addIsRead(codeNames) {
+      for (const codeName of codeNames) {
+        this.zip[codeName].isRead = true
+      }
+    },
+    connectCode(codeNames) {
+      let code = ''
+      for (const codeName of codeNames) {
+        code = code + this.zip[codeName].val.toString()
+      }
+      return code
+    },
     dayFormatter1(value) {
-      console.log('-----1')
       this.zip.code2.isRead = false
       const setVal = this.dayFormatter(value)
       if (value === 10) {
-        this.zip.code2.isRead = true
-        this.zip.code3.isRead = true
-        this.zip.code4.isRead = true
-        this.zip.code5.isRead = true
-        this.zip.code6.isRead = true
-        this.zip.code7.isRead = true
+        this.addIsRead(['code2', 'code3', 'code4', 'code5', 'code6', 'code7'])
         this.code = ''
       } else {
-        let code = setVal
-        if (!this.zip.code2.isRead) {
-          code = code + this.zip.code2.val
-        }
-        // if (!this.zip.code3.isRead) {
-        //   code = code + this.zip.code3.val
-        // }
-        // if (!this.zip.code4.isRead) {
-        //   code = code + this.zip.code4.val
-        // }
-        // if (!this.zip.code5.isRead) {
-        //   code = code + this.zip.code5.val
-        // }
-        // if (!this.zip.code6.isRead) {
-        //   code = code + this.zip.code6.val
-        // }
-        // if (!this.zip.code7.isRead) {
-        //   code = code + this.zip.code7.val
-        // }
-        console.log('else---3')
-        this.code = code
+        const codeNames = ['code3', 'code4', 'code5', 'code6', 'code7']
+        this.code = this.multiAddCode(
+          this.addCode(setVal, this.zip.code2),
+          codeNames
+        )
       }
       return setVal
     },
     dayFormatter2(value) {
-      console.log('-----2')
       if (this.zip.code2.isRead) {
         return
       }
       this.zip.code3.isRead = false
       const setVal = this.dayFormatter(value)
-
       if (value === 10) {
-        this.zip.code3.isRead = true
-        this.zip.code4.isRead = true
-        this.zip.code5.isRead = true
-        this.zip.code6.isRead = true
-        this.zip.code7.isRead = true
-        const code1 = this.zip.code1.val
-        this.code = code1
+        this.addIsRead(['code3', 'code4', 'code5', 'code6', 'code7'])
+        this.code = this.zip.code1.val
       } else {
-        const code2 = setVal
-        const code1 = this.zip.code1.val
-        this.code = code1 + code2
+        const code = this.zip.code1.val.toString() + setVal.toString()
+        const codeNames = ['code3', 'code4', 'code5', 'code6', 'code7']
+        this.code = this.multiAddCode(code, codeNames)
       }
       return setVal
     },
     dayFormatter3(value) {
-      console.log('-----3')
       if (this.zip.code3.isRead) {
         return
       }
       this.zip.code4.isRead = false
+      const setVal = this.dayFormatter(value)
       if (value === 10) {
-        this.zip.code4.isRead = true
-        this.zip.code5.isRead = true
-        this.zip.code6.isRead = true
-        this.zip.code7.isRead = true
+        this.addIsRead(['code4', 'code5', 'code6', 'code7'])
+      } else {
+        let code = this.connectCode(['code1', 'code2'])
+        code = code + setVal.toString()
+        this.code = this.multiAddCode(code, ['code4', 'code5', 'code6', 'code7'])
       }
-      return this.dayFormatter(value)
+      return setVal
     },
     dayFormatter4(value) {
       if (this.zip.code4.isRead) {
         return
       }
       this.zip.code5.isRead = false
+      const setVal = this.dayFormatter(value)
       if (value === 10) {
-        this.zip.code5.isRead = true
-        this.zip.code6.isRead = true
-        this.zip.code7.isRead = true
+        this.addIsRead(['code5', 'code6', 'code7'])
+      } else {
+        let code = this.connectCode(['code1', 'code2', 'code3'])
+        code = code + setVal.toString()
+        this.code = this.multiAddCode(code, ['code5', 'code6', 'code7'])
       }
-      return this.dayFormatter(value)
+      return setVal
     },
     dayFormatter5(value) {
       if (this.zip.code5.isRead) {
         return
       }
       this.zip.code6.isRead = false
+      const setVal = this.dayFormatter(value)
       if (value === 10) {
-        this.zip.code6.isRead = true
-        this.zip.code7.isRead = true
+        this.addIsRead(['code6', 'code7'])
+      } else {
+        let code = this.connectCode(['code1', 'code2', 'code3', 'code4'])
+        code = code + setVal.toString()
+        this.code = this.multiAddCode(code, ['code6', 'code7'])
       }
-      return this.dayFormatter(value)
+      return setVal
     },
     dayFormatter6(value) {
       if (this.zip.code6.isRead) {
         return
       }
       this.zip.code7.isRead = false
+      const setVal = this.dayFormatter(value)
       if (value === 10) {
-        this.zip.code7.isRead = true
+        this.addIsRead(['code7'])
+      } else {
+        const codeNames = ['code1', 'code2', 'code3', 'code4', 'code5']
+        let code = this.connectCode(codeNames)
+        code = code + setVal.toString()
+        this.code = this.addCode(code, this.zip.code7)
       }
-      return this.dayFormatter(value)
+      return setVal
     },
     dayFormatter7(value) {
       if (this.zip.code7.isRead) {
