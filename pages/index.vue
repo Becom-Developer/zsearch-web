@@ -1,5 +1,5 @@
 <template>
-  <b-container>
+  <b-container class="mb-5">
     <b-jumbotron
       header="zsearch-web"
       lead="zsearch-web: Search for zip code information"
@@ -7,12 +7,9 @@
       <p>郵便番号情報を検索</p>
       <b-btn variant="primary" @click="$router.push('/')">トップへ戻る</b-btn>
     </b-jumbotron>
-    <p>検索条件入力フォーム</p>
     <!-- 検索 -->
     <div class="mb-3">
-      <b-card header="検索条件入力フォーム" header-tag="header" title="項目">
-        <b-card-text>テスト検索</b-card-text>
-        <!-- <b-btn block size="sm" @click="getList">実行</b-btn> -->
+      <b-card header="検索条件入力フォーム" header-tag="header" title="">
         <b-row class="my-1">
           <b-col sm="3" class="text-left">
             <label :for="`type-code`">郵便番号:</label>
@@ -161,11 +158,11 @@
     </div>
     <!-- 検索結果リスト -->
     <div class="mb-3">
-      <b-card header="検索結果" header-tag="header" title="項目">
-        <b-card-text>結果のリスト</b-card-text>
+      <b-card header="検索結果" header-tag="header" title="">
+        <p class="mt-1">
+          検索件数: {{ rows }} - Current Page: {{ currentPage }}
+        </p>
         <div class="overflow-auto">
-          <p class="mt-3">検索件数: {{ rows }}</p>
-          <p class="mt-3">Current Page: {{ currentPage }}</p>
           <b-table
             id="my-table"
             :items="items"
@@ -209,12 +206,12 @@
         </div>
       </b-card>
     </div>
-    <div>
+    <!-- <div>
       <b-btn variant="primary" @click="clickTestZsearch">テスト Zsearch</b-btn>
       <p>{{ res }}</p>
       <b-btn variant="primary" @click="clickTestAuth">テスト Auth</b-btn>
       <p>{{ res }}</p>
-    </div>
+    </div> -->
   </b-container>
 </template>
 
@@ -378,7 +375,12 @@ export default {
       } else {
         let code = this.connectCode(['code1', 'code2'])
         code = code + setVal.toString()
-        this.code = this.multiAddCode(code, ['code4', 'code5', 'code6', 'code7'])
+        this.code = this.multiAddCode(code, [
+          'code4',
+          'code5',
+          'code6',
+          'code7',
+        ])
       }
       return setVal
     },
