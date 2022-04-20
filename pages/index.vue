@@ -180,28 +180,48 @@
         <p class="mt-1">
           検索件数: {{ rows }} - Current Page: {{ currentPage }}
         </p>
-        <div class="overflow-auto">
-          <b-table
-            id="my-table"
-            :items="items"
-            :per-page="perPage"
-            :current-page="currentPage"
-            :fields="['zipcode', 'pref', 'city', 'town', 'show_details']"
-            small
-            hover
-          >
-            <template #cell(show_details)="row">
-              <b-btn size="sm" class="mr-2" @click="showDetail(row)">
-                Details
-              </b-btn>
-            </template>
-          </b-table>
+        <div>
+          <div class="">
+            <b-table
+              id="my-table"
+              :items="items"
+              :per-page="perPage"
+              :current-page="currentPage"
+              :fields="['検索結果リスト']"
+              small
+              hover
+              responsive
+            >
+              <template #cell(検索結果リスト)="row">
+                <b-row no-gutters>
+                  <b-col
+                    cols="12"
+                    align-self=""
+                    class="text-left text-truncate"
+                  >
+                    <b-btn
+                      size="sm"
+                      variant="secondary"
+                      class="text-center"
+                      @click="showDetail(row)"
+                    >
+                      詳細
+                    </b-btn>
+                    <span class="">〒{{ row.item.zipcode }}</span>
+                    <span>{{ row.item.pref }}</span>
+                    <span>{{ row.item.city }}</span>
+                    <span>{{ row.item.town }}</span>
+                  </b-col>
+                </b-row>
+              </template>
+            </b-table>
+          </div>
           <b-pagination
             v-model="currentPage"
             :total-rows="rows"
             :per-page="perPage"
             aria-controls="my-table"
-            align="center"
+            align="fill"
           ></b-pagination>
         </div>
         <div v-if="isDetail">
