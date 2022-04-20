@@ -151,30 +151,24 @@
             ></b-form-input>
           </b-col>
         </b-row>
-        <b-btn block size="sm" @click="sendForm">検索</b-btn>
-        <b-btn block size="sm" @click="clearForm">検索条件をクリア</b-btn>
-        <div class="text-center">
-          <div v-if="isLoading" class="text-center p-3">
+        <div v-if="isLoading">
+          <b-alert class="text-center" variant="light" :show="isLoading">
             <b-spinner type="grow" small label="Small Spinning"></b-spinner>
             <b-spinner type="grow" small label="Small Spinning"></b-spinner>
             <b-spinner type="grow" small label="Small Spinning"></b-spinner>
-          </div>
-          <b-alert
-            variant="success"
-            :show="isCompleted"
-            @dismissed="isCompleted = false"
-            >検索実行
           </b-alert>
-          <b-alert
-            variant="warning"
-            :show="hasValidError"
-            @dismissed="hasValidError = false"
+        </div>
+        <div v-else>
+          <b-btn block size="sm" @click="sendForm">検索</b-btn>
+          <b-btn block size="sm" @click="clearForm">検索条件をクリア</b-btn>
+        </div>
+        <!-- 検索状況お知らせ -->
+        <div class="text-center">
+          <b-alert variant="success" :show="isCompleted">検索実行 </b-alert>
+          <b-alert variant="warning" :show="hasValidError"
             >検索条件を指定してください</b-alert
           >
-          <b-alert
-            variant="danger"
-            :show="hasError"
-            @dismissed="hasError = false"
+          <b-alert variant="danger" :show="hasError"
             >問題が発生しました</b-alert
           >
         </div>
@@ -465,9 +459,9 @@ export default {
       return this.dayFormatter(value)
     },
     async sendForm() {
-      this.isLoading = true
       this.hasValidError = false
       this.isCompleted = false
+      this.isLoading = true
       if (
         this.code === '' &&
         this.pref === '' &&
@@ -476,6 +470,7 @@ export default {
       ) {
         this.hasValidError = true
         this.isLoading = false
+        this.items = []
         return
       }
       const res = await this.$zsearchapi([
@@ -483,6 +478,7 @@ export default {
         'like',
         { code: this.code, pref: this.pref, city: this.city, town: this.town },
       ])
+      this.items = []
       if ('error' in res) {
         this.hasError = true
       } else {
