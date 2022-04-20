@@ -151,9 +151,33 @@
             ></b-form-input>
           </b-col>
         </b-row>
-
         <b-btn block size="sm" @click="sendForm">検索</b-btn>
         <b-btn block size="sm" @click="clearForm">検索条件をクリア</b-btn>
+        <div class="text-center">
+          <div v-if="isLoading" class="text-center p-3">
+            <b-spinner type="grow" small label="Small Spinning"></b-spinner>
+            <b-spinner type="grow" small label="Small Spinning"></b-spinner>
+            <b-spinner type="grow" small label="Small Spinning"></b-spinner>
+          </div>
+          <b-alert
+            variant="success"
+            :show="isCompleted"
+            @dismissed="isCompleted = false"
+            >検索実行
+          </b-alert>
+          <b-alert
+            variant="warning"
+            :show="hasValidError"
+            @dismissed="hasValidError = false"
+            >検索条件を指定してください</b-alert
+          >
+          <b-alert
+            variant="danger"
+            :show="hasError"
+            @dismissed="hasError = false"
+            >問題が発生しました</b-alert
+          >
+        </div>
       </b-card>
     </div>
     <!-- 検索結果リスト -->
@@ -219,6 +243,10 @@
 export default {
   data() {
     return {
+      isCompleted: false,
+      hasError: false,
+      hasValidError: false,
+      isLoading: false,
       zip: {
         code1: { val: 10, isRead: true },
         code2: { val: 10, isRead: true },
@@ -437,23 +465,39 @@ export default {
       return this.dayFormatter(value)
     },
     async sendForm() {
+      this.isLoading = true
+      this.hasValidError = false
+      this.isCompleted = false
+      if (
+        this.code === '' &&
+        this.pref === '' &&
+        this.city === '' &&
+        this.town === ''
+      ) {
+        this.hasValidError = true
+        this.isLoading = false
+        return
+      }
       const res = await this.$zsearchapi([
         'search',
         'like',
         { code: this.code, pref: this.pref, city: this.city, town: this.town },
       ])
       if ('error' in res) {
-        // this.isError = true
+        this.hasError = true
       } else {
-        // this.isCompleted = true
+        this.isCompleted = true
         const items = []
         for (const user of res.result) {
           items.push(user)
         }
         this.items = items
       }
+      this.isLoading = false
     },
     clearForm() {
+      this.hasValidError = false
+      this.isCompleted = false
       const zipNames = ['1', '2', '3', '4', '5', '6', '7']
       for (const zipName of zipNames) {
         const name = 'code' + zipName
