@@ -23,8 +23,8 @@
             ></b-form-input>
           </b-col>
         </b-row>
-        <!-- <p>{{ code }}</p> -->
-        <!-- <p>{{ zip }}</p> -->
+        <!-- <p>{{ code }}</p>
+        <p>{{ zip }}</p> -->
         <b-row class="my-1">
           <b-col class="m-0 p-0 text-center">
             <b-form-spinbutton
@@ -127,7 +127,6 @@
             ></b-form-select>
           </b-col>
         </b-row>
-
         <b-row class="my-1">
           <b-col sm="3" class="text-left">
             <label :for="`type-city`">市町村:</label>
@@ -154,6 +153,7 @@
         </b-row>
 
         <b-btn block size="sm" @click="sendForm">検索</b-btn>
+        <b-btn block size="sm" @click="clearForm">検索条件をクリア</b-btn>
       </b-card>
     </div>
     <!-- 検索結果リスト -->
@@ -451,6 +451,17 @@ export default {
           items.push(user)
         }
         this.items = items
+      }
+    },
+    clearForm() {
+      const zipNames = ['1', '2', '3', '4', '5', '6', '7']
+      for (const zipName of zipNames) {
+        const name = 'code' + zipName
+        this.zip[name].val = 10
+        this.zip[name].isRead = true
+      }
+      for (const name of ['code', 'pref', 'city', 'town']) {
+        this[name] = ''
       }
     },
     async getList() {
