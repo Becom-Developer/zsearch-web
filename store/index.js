@@ -10,15 +10,6 @@ export const state = () => ({
     town: '',
     city: '',
   },
-  zip: {
-    code1: { val: 10, isRead: true },
-    code2: { val: 10, isRead: true },
-    code3: { val: 10, isRead: true },
-    code4: { val: 10, isRead: true },
-    code5: { val: 10, isRead: true },
-    code6: { val: 10, isRead: true },
-    code7: { val: 10, isRead: true },
-  },
 })
 
 export const mutations = {
