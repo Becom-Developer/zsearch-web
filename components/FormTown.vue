@@ -13,26 +13,24 @@
   </b-row>
 </template>
 <script>
-import { mapMutations, mapState } from 'vuex'
+import { mapMutations } from 'vuex'
 export default {
-  props: {},
   data() {
     return {}
   },
   computed: {
-    ...mapState(['isDetail']),
     town: {
       get() {
-        return this.$store.state.town
+        return this.$store.state.zipInput.town
       },
       set(val) {
-        this.addState({ stateKey: 'town', data: val })
+        this.buildInput({ inputKey: 'zipInput', row: { town: val } })
       },
     },
   },
   mounted() {},
   methods: {
-    ...mapMutations(['addState']),
+    ...mapMutations(['buildInput']),
   },
 }
 </script>

@@ -129,18 +129,7 @@
           </b-col>
         </b-row>
         <!-- 市町村 -->
-        <b-row class="my-1">
-          <b-col sm="3" class="text-left">
-            <label :for="`type-city`">市町村:</label>
-          </b-col>
-          <b-col sm="9">
-            <b-form-input
-              :id="`type-city`"
-              v-model="city"
-              :type="`text`"
-            ></b-form-input>
-          </b-col>
-        </b-row>
+        <FormCity />
         <!-- 以下の住所 -->
         <FormTown />
         <div v-if="isLoading">
@@ -255,7 +244,6 @@ export default {
       ],
       code: '',
       pref: '',
-      city: '',
       res: {
         zserch: {},
         auth: {},
@@ -263,10 +251,17 @@ export default {
     }
   },
   computed: {
-    ...mapState(['zipcodeDetail', 'items', 'isDetail', 'town']),
+    ...mapState([
+      'zipcodeDetail',
+      'items',
+      'isDetail',
+      'town',
+      'city',
+      'zipInput',
+    ]),
   },
   methods: {
-    ...mapMutations(['addState']),
+    ...mapMutations(['addState', 'buildInput']),
     dayFormatter(value) {
       return this.days[value]
     },
@@ -410,8 +405,8 @@ export default {
       if (
         this.code === '' &&
         this.pref === '' &&
-        this.city === '' &&
-        this.town === ''
+        this.zipInput.city === '' &&
+        this.zipInput.town === ''
       ) {
         this.hasValidError = true
         this.isLoading = false
@@ -421,7 +416,12 @@ export default {
       const res = await this.$zsearchapi([
         'search',
         'like',
-        { code: this.code, pref: this.pref, city: this.city, town: this.town },
+        {
+          code: this.code,
+          pref: this.pref,
+          city: this.zipInput.city,
+          town: this.zipInput.town,
+        },
       ])
       this.addState({ stateKey: 'items', data: [] })
       if ('error' in res) {
@@ -445,9 +445,11 @@ export default {
         this.zip[name].val = 10
         this.zip[name].isRead = true
       }
-      for (const name of ['code', 'pref', 'city', 'town']) {
+      for (const name of ['code', 'pref']) {
         this[name] = ''
       }
+      this.buildInput({ inputKey: 'zipInput', row: { city: '' } })
+      this.buildInput({ inputKey: 'zipInput', row: { town: '' } })
     },
     async getList() {
       const res = await this.$zsearchapi(['search', 'like', { code: '812' }])

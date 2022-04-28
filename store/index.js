@@ -5,10 +5,24 @@ export const state = () => ({
   items: [],
   isDetail: false,
   town: '',
+  city: '',
+  zipInput: {
+    code: '',
+    pref: '',
+    town: '',
+    city: '',
+  },
 })
 
 export const mutations = {
   addState(state, { stateKey, data }) {
     state[stateKey] = data
+  },
+  buildInput(state, { inputKey, row }) {
+    for (const key in state[inputKey]) {
+      if (key in row) {
+        state[inputKey][key] = row[key]
+      }
+    }
   },
 }
