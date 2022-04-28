@@ -174,54 +174,17 @@
         </div>
       </b-card>
     </div>
-    <!-- 検索結果リスト -->
+    <!-- 検索結果 -->
     <div class="mb-3">
       <b-card header="検索結果" header-tag="header" title="">
-        <p class="mt-1">
-          検索件数: {{ rows }} - Current Page: {{ currentPage }}
-        </p>
-        <div>
-          <div class="">
-            <b-table
-              id="my-table"
-              :items="items"
-              :per-page="perPage"
-              :current-page="currentPage"
-              :fields="['検索結果リスト']"
-              small
-              hover
-              responsive
-            >
-              <template #cell(検索結果リスト)="row">
-                <b-row no-gutters>
-                  <b-col cols="12" class="text-left text-truncate">
-                    <b-btn
-                      size="sm"
-                      variant="secondary"
-                      class="text-center"
-                      @click="showDetail(row)"
-                    >
-                      詳細
-                    </b-btn>
-                    <span class="">〒{{ row.item.zipcode }}</span>
-                    <span>{{ row.item.pref }}</span>
-                    <span>{{ row.item.city }}</span>
-                    <span>{{ row.item.town }}</span>
-                  </b-col>
-                </b-row>
-              </template>
-            </b-table>
-          </div>
-          <b-pagination
-            v-model="currentPage"
-            :total-rows="rows"
-            :per-page="perPage"
-            aria-controls="my-table"
-            align="fill"
-          ></b-pagination>
-        </div>
+        <!--  検索結果リスト -->
+        <ZipcodeList />
         <!--  検索結果詳細 -->
+        {{ isDetail }}
         <ZipcodeDetail v-if="isDetail" />
+        <!-- <div v-if="isDetail">
+          <ZipcodeDetail />
+        </div> -->
       </b-card>
     </div>
     <!-- <div>
@@ -310,14 +273,10 @@ export default {
         zserch: {},
         auth: {},
       },
-      isDetail: false,
-      perPage: 10,
-      currentPage: 1,
-      items: [],
     }
   },
   computed: {
-    ...mapState(['zipcodeDetail']),
+    ...mapState(['zipcodeDetail', 'items', 'isDetail']),
     rows() {
       return this.items.length
     },
@@ -472,7 +431,7 @@ export default {
       ) {
         this.hasValidError = true
         this.isLoading = false
-        this.items = []
+        this.addState({ stateKey: 'items', data: [] })
         return
       }
       const res = await this.$zsearchapi([
@@ -480,7 +439,7 @@ export default {
         'like',
         { code: this.code, pref: this.pref, city: this.city, town: this.town },
       ])
-      this.items = []
+      this.addState({ stateKey: 'items', data: [] })
       if ('error' in res) {
         this.hasError = true
       } else {
@@ -489,7 +448,7 @@ export default {
         for (const user of res.result) {
           items.push(user)
         }
-        this.items = items
+        this.addState({ stateKey: 'items', data: items })
       }
       this.isLoading = false
     },
@@ -513,10 +472,6 @@ export default {
         items.push(user)
       }
       this.items = items
-    },
-    showDetail(row) {
-      this.isDetail = true
-      this.addState({ stateKey: 'zipcodeDetail', data: row.item })
     },
     async clickTestZsearch() {
       const res = await this.$zsearchapi(['', '', {}])
