@@ -113,6 +113,7 @@
             ></b-form-spinbutton>
           </b-col>
         </b-row>
+        <!-- 都道府県 -->
         <b-row class="my-1">
           <b-col sm="3" class="text-left">
             <label :for="`type-pref`">都道府県:</label>
@@ -127,6 +128,7 @@
             ></b-form-select>
           </b-col>
         </b-row>
+        <!-- 市町村 -->
         <b-row class="my-1">
           <b-col sm="3" class="text-left">
             <label :for="`type-city`">市町村:</label>
@@ -139,18 +141,8 @@
             ></b-form-input>
           </b-col>
         </b-row>
-        <b-row class="my-1">
-          <b-col sm="3" class="text-left">
-            <label :for="`type-town`">以下の住所:</label>
-          </b-col>
-          <b-col sm="9">
-            <b-form-input
-              :id="`type-town`"
-              v-model="town"
-              :type="`text`"
-            ></b-form-input>
-          </b-col>
-        </b-row>
+        <!-- 以下の住所 -->
+        <FormTown />
         <div v-if="isLoading">
           <b-alert class="text-center" variant="light" :show="isLoading">
             <b-spinner type="grow" small label="Small Spinning"></b-spinner>
@@ -180,11 +172,7 @@
         <!--  検索結果リスト -->
         <ZipcodeList />
         <!--  検索結果詳細 -->
-        {{ isDetail }}
         <ZipcodeDetail v-if="isDetail" />
-        <!-- <div v-if="isDetail">
-          <ZipcodeDetail />
-        </div> -->
       </b-card>
     </div>
     <!-- <div>
@@ -268,7 +256,6 @@ export default {
       code: '',
       pref: '',
       city: '',
-      town: '',
       res: {
         zserch: {},
         auth: {},
@@ -276,10 +263,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['zipcodeDetail', 'items', 'isDetail']),
-    rows() {
-      return this.items.length
-    },
+    ...mapState(['zipcodeDetail', 'items', 'isDetail', 'town']),
   },
   methods: {
     ...mapMutations(['addState']),

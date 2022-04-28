@@ -4,6 +4,7 @@ export const state = () => ({
   currentPage: 1,
   items: [],
   isDetail: false,
+  town: '',
 })
 
 export const mutations = {
