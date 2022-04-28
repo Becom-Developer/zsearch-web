@@ -164,7 +164,7 @@
         </div>
         <!-- 検索状況お知らせ -->
         <div class="text-center">
-          <b-alert variant="success" :show="isCompleted">検索実行 </b-alert>
+          <b-alert variant="success" :show="isCompleted">検索実行</b-alert>
           <b-alert variant="warning" :show="hasValidError"
             >検索条件を指定してください</b-alert
           >
@@ -194,11 +194,7 @@
             >
               <template #cell(検索結果リスト)="row">
                 <b-row no-gutters>
-                  <b-col
-                    cols="12"
-                    align-self=""
-                    class="text-left text-truncate"
-                  >
+                  <b-col cols="12" class="text-left text-truncate">
                     <b-btn
                       size="sm"
                       variant="secondary"
@@ -224,23 +220,42 @@
             align="fill"
           ></b-pagination>
         </div>
+        <!--  検索結果詳細 -->
         <div v-if="isDetail">
-          <ul>
-            <li
-              v-for="col in [
-                'zipcode',
-                'pref',
-                'city',
-                'town',
-                'pref_kana',
-                'city_kana',
-                'town_kana',
-              ]"
-              :key="col.id"
-            >
-              {{ col }}: {{ detail[col] }}
-            </li>
-          </ul>
+          <div class="my-4">
+            <p class="h1">〒 {{ detail['zipcode'] }}</p>
+            <p class="h2">
+              <span>{{ detail['pref'] }}</span>
+              <span>{{ detail['city'] }}</span>
+            </p>
+            <p class="h3">{{ detail['town'] }}</p>
+          </div>
+          <div class="my-4">
+            <p class="h4">
+              <span>{{ detail['pref_kana'] }}</span>
+              <span>{{ detail['city_kana'] }}</span>
+            </p>
+            <p class="h4">
+              <span>{{ detail['town_kana'] }}</span>
+            </p>
+          </div>
+          <b-row>
+            <b-col md="4" class="mb-2">
+              <b-btn block size="lg" @click="copy('zipcode')"
+                >郵便番号をコピー</b-btn
+              >
+            </b-col>
+            <b-col md="4" class="mb-2">
+              <b-btn block size="lg" @click="copy('address')"
+                >住所をコピー</b-btn
+              >
+            </b-col>
+            <b-col md="4" class="mb-2">
+              <b-btn block size="lg" @click="copy('kana')"
+                >よみがなをコピー</b-btn
+              >
+            </b-col>
+          </b-row>
         </div>
       </b-card>
     </div>
@@ -342,6 +357,25 @@ export default {
     },
   },
   methods: {
+    async copy(word) {
+      const detail = this.detail
+      let copyText = `${detail.zipcode}${detail.pref}${detail.city}`
+      if (word === 'zipcode') {
+        copyText = detail.zipcode
+      }
+      if (word === 'address') {
+        copyText = `${detail.pref}${detail.city}${detail.town}`
+      }
+      if (word === 'kana') {
+        copyText = `${detail.pref_kana}${detail.city_kana}${detail.town_kana}`
+      }
+      try {
+        await navigator.clipboard.writeText(copyText)
+        // alert('コピーしました')
+      } catch (error) {
+        alert((error && error.message) || 'コピーに失敗しました')
+      }
+    },
     dayFormatter(value) {
       return this.days[value]
     },
