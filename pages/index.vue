@@ -221,42 +221,7 @@
           ></b-pagination>
         </div>
         <!--  検索結果詳細 -->
-        <div v-if="isDetail">
-          <div class="my-4">
-            <p class="h1">〒 {{ detail['zipcode'] }}</p>
-            <p class="h2">
-              <span>{{ detail['pref'] }}</span>
-              <span>{{ detail['city'] }}</span>
-            </p>
-            <p class="h3">{{ detail['town'] }}</p>
-          </div>
-          <div class="my-4">
-            <p class="h4">
-              <span>{{ detail['pref_kana'] }}</span>
-              <span>{{ detail['city_kana'] }}</span>
-            </p>
-            <p class="h4">
-              <span>{{ detail['town_kana'] }}</span>
-            </p>
-          </div>
-          <b-row>
-            <b-col md="4" class="mb-2">
-              <b-btn block size="lg" @click="copy('zipcode')"
-                >郵便番号をコピー</b-btn
-              >
-            </b-col>
-            <b-col md="4" class="mb-2">
-              <b-btn block size="lg" @click="copy('address')"
-                >住所をコピー</b-btn
-              >
-            </b-col>
-            <b-col md="4" class="mb-2">
-              <b-btn block size="lg" @click="copy('kana')"
-                >よみがなをコピー</b-btn
-              >
-            </b-col>
-          </b-row>
-        </div>
+        <ZipcodeDetail v-if="isDetail" />
       </b-card>
     </div>
     <!-- <div>
@@ -269,6 +234,7 @@
 </template>
 
 <script>
+import { mapMutations, mapState } from 'vuex'
 export default {
   data() {
     return {
@@ -345,37 +311,19 @@ export default {
         auth: {},
       },
       isDetail: false,
-      detail: {},
       perPage: 10,
       currentPage: 1,
       items: [],
     }
   },
   computed: {
+    ...mapState(['zipcodeDetail']),
     rows() {
       return this.items.length
     },
   },
   methods: {
-    async copy(word) {
-      const detail = this.detail
-      let copyText = `${detail.zipcode}${detail.pref}${detail.city}`
-      if (word === 'zipcode') {
-        copyText = detail.zipcode
-      }
-      if (word === 'address') {
-        copyText = `${detail.pref}${detail.city}${detail.town}`
-      }
-      if (word === 'kana') {
-        copyText = `${detail.pref_kana}${detail.city_kana}${detail.town_kana}`
-      }
-      try {
-        await navigator.clipboard.writeText(copyText)
-        // alert('コピーしました')
-      } catch (error) {
-        alert((error && error.message) || 'コピーに失敗しました')
-      }
-    },
+    ...mapMutations(['addState']),
     dayFormatter(value) {
       return this.days[value]
     },
@@ -568,7 +516,7 @@ export default {
     },
     showDetail(row) {
       this.isDetail = true
-      this.detail = row.item
+      this.addState({ stateKey: 'zipcodeDetail', data: row.item })
     },
     async clickTestZsearch() {
       const res = await this.$zsearchapi(['', '', {}])
