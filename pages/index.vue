@@ -1,12 +1,43 @@
 <template>
   <b-container class="mb-5">
-    <b-jumbotron
+    <!-- <b-jumbotron
       header="zsearch-web"
       lead="zsearch-web: Search for zip code information"
     >
       <p>郵便番号情報を検索</p>
       <b-btn variant="primary" @click="$router.push('/')">トップへ戻る</b-btn>
-    </b-jumbotron>
+    </b-jumbotron> -->
+
+    <!-- アプリの説明 -->
+    <div>
+      <b-dropdown
+        text="住所検索の使い方"
+        block
+        variant="info"
+        class="my-2"
+        menu-class="w-100"
+         size="lg"
+      >
+        <b-dropdown-text style="">
+          郵便番号や住所の一部分から該当する郵便番号と住所を検索することができます。
+        </b-dropdown-text>
+        <b-dropdown-text style="">
+          例えば「以下の住所」に「吉」と入力して検索すると全国の住所から該当するものが一覧表示されます。
+        </b-dropdown-text>
+        <b-dropdown-text style="">
+          続けて「都道府県」から「福岡県」を選択すると「福岡県」かつ「吉」の付く住所を絞り込み検索します。
+        </b-dropdown-text>
+        <b-dropdown-text style="">
+          利用にあたりログインや利用料は必要ありません。
+        </b-dropdown-text>
+        <b-dropdown-text style="">
+          ソフトウェア開発者向けにjson形式でwebapi配信も行なっております。
+        </b-dropdown-text>
+        <b-dropdown-divider></b-dropdown-divider>
+        <b-dropdown-item href="/developers">開発者の方はこちら</b-dropdown-item>
+        <!-- <b-dropdown-item-button>開発者の方はこちら</b-dropdown-item-button> -->
+      </b-dropdown>
+    </div>
     <!-- 検索 -->
     <div class="mb-3">
       <b-card header="検索条件入力フォーム" header-tag="header" title="">
