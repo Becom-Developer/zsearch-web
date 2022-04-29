@@ -1,8 +1,8 @@
 export default function ({ app }, inject) {
-  const authURL = process.env.authURL
-  const zsearchURL = process.env.zsearchURL
+  const authApiURL = process.env.authApiURL
+  const zsearchApiURL = process.env.zsearchApiURL
   inject('authapi', (qParams) => {
-    return app.$axios.$post(authURL, {
+    return app.$axios.$post(authApiURL, {
       resource: qParams[0],
       method: qParams[1],
       params: qParams[2],
@@ -10,7 +10,7 @@ export default function ({ app }, inject) {
     })
   })
   inject('zsearchapi', (qParams) => {
-    return app.$axios.$post(zsearchURL, {
+    return app.$axios.$post(zsearchApiURL, {
       resource: qParams[0],
       method: qParams[1],
       params: qParams[2],

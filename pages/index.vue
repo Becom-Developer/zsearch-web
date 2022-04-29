@@ -27,6 +27,7 @@
         </b-dropdown-text>
         <b-dropdown-divider></b-dropdown-divider>
         <b-dropdown-item href="/developers">開発者の方はこちら</b-dropdown-item>
+        <b-dropdown-item :href="reloadURL">強制的に再読み込み</b-dropdown-item>
         <!-- <b-dropdown-item-button>開発者の方はこちら</b-dropdown-item-button> -->
       </b-dropdown>
     </div>
@@ -91,10 +92,14 @@ export default {
         zserch: {},
         auth: {},
       },
+      reloadURL: '',
     }
   },
   computed: {
     ...mapState(['zipcodeDetail', 'items', 'isDetail', 'zipInput']),
+  },
+  mounted() {
+    this.reloadURL = process.env.zsearchWebURL
   },
   methods: {
     ...mapMutations(['addState', 'buildInput']),

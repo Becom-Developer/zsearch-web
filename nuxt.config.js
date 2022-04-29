@@ -65,7 +65,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: process.env.AUTH_URL,
+    baseURL: process.env.AUTH_API_URL,
     credentials: true,
   },
 
@@ -73,7 +73,8 @@ export default {
   build: {},
   env: {
     mode: process.env.ZSEARCH_MODE || 'local',
-    authURL: process.env.AUTH_URL || 'http://localhost:3000/',
-    zsearchURL: process.env.ZSEARCH_URL || 'http://localhost:3010/',
+    authApiURL: process.env.AUTH_API_URL || 'http://localhost:3000/',
+    zsearchApiURL: process.env.ZSEARCH_API_URL || 'http://localhost:3010/',
+    zsearchWebURL: process.env.ZSEARCH_WEB_URL || 'http://localhost:4010/',
   },
 }
