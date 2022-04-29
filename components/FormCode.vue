@@ -9,6 +9,7 @@
         v-model="code"
         :type="`number`"
         :readonly="false"
+        size="lg"
       ></b-form-input>
     </b-col>
   </b-row>

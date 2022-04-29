@@ -72,7 +72,7 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
   env: {
-    mode: process.env.BEAUTH_MODE || 'local',
+    mode: process.env.ZSEARCH_MODE || 'local',
     authURL: process.env.AUTH_URL || 'http://localhost:3000/',
     zsearchURL: process.env.ZSEARCH_URL || 'http://localhost:3010/',
   },

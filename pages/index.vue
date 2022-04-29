@@ -1,13 +1,5 @@
 <template>
   <b-container class="mb-5">
-    <!-- <b-jumbotron
-      header="zsearch-web"
-      lead="zsearch-web: Search for zip code information"
-    >
-      <p>郵便番号情報を検索</p>
-      <b-btn variant="primary" @click="$router.push('/')">トップへ戻る</b-btn>
-    </b-jumbotron> -->
-
     <!-- アプリの説明 -->
     <div>
       <b-dropdown
@@ -16,7 +8,7 @@
         variant="info"
         class="my-2"
         menu-class="w-100"
-         size="lg"
+        size="lg"
       >
         <b-dropdown-text style="">
           郵便番号や住所の一部分から該当する郵便番号と住所を検索することができます。
@@ -57,8 +49,10 @@
           </b-alert>
         </div>
         <div v-else>
-          <b-btn block size="sm" @click="sendForm">検索</b-btn>
-          <b-btn block size="sm" @click="clearForm">検索条件をクリア</b-btn>
+          <b-btn block size="lg" class="my-3" @click="sendForm">検索</b-btn>
+          <b-btn block size="lg" class="my-3" @click="clearForm"
+            >検索条件をクリア</b-btn
+          >
         </div>
         <!-- 検索状況お知らせ -->
         <div class="text-center">
@@ -117,6 +111,8 @@ export default {
         this.hasValidError = true
         this.isLoading = false
         this.addState({ stateKey: 'items', data: [] })
+        this.addState({ stateKey: 'zipcodeDetail', data: {} })
+        this.addState({ stateKey: 'isDetail', data: false })
         return
       }
       const res = await this.$zsearchapi([
@@ -130,6 +126,8 @@ export default {
         },
       ])
       this.addState({ stateKey: 'items', data: [] })
+      this.addState({ stateKey: 'zipcodeDetail', data: {} })
+      this.addState({ stateKey: 'isDetail', data: false })
       if ('error' in res) {
         this.hasError = true
       } else {

@@ -8,7 +8,7 @@
         :id="`type-pref`"
         v-model="pref"
         :options="options"
-        size="sm"
+        size="lg"
         class=""
       ></b-form-select>
     </b-col>

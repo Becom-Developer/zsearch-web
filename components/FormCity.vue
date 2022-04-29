@@ -8,6 +8,7 @@
         :id="`type-city`"
         v-model="city"
         :type="`text`"
+        size="lg"
       ></b-form-input>
     </b-col>
   </b-row>
