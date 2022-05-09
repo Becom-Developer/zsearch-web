@@ -22,11 +22,23 @@ web, api ともにローカル起動
 npm run dev-local
 ```
 
+リクエスト
+
+```zsh
+open 'http://localhost:4010/'
+```
+
 公開環境へデプロイ
 
 ```zsh
 npm run generate-prod
 scp -r ~/github/zsearch-web/dist/ becom2022@becom2022.sakura.ne.jp:~/www/zsearch-web/
+```
+
+### HTTP
+
+```text
+https://zsearch-web.becom.co.jp/
 ```
 
 ## Memo
@@ -48,6 +60,7 @@ npm run dev
 公開環境
 
 ```sh
+npm run generate-prod
 # 初回のみ公開環境でディレクトを作成しておく
 ssh becom2022@becom2022.sakura.ne.jp
 mkdir ~/www/zsearch-web
