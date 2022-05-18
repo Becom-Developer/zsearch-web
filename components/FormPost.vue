@@ -124,10 +124,10 @@ export default {
   computed: {
     code: {
       get() {
-        return this.$store.state.zipInput.code
+        return this.$store.state.zipInput.zipcode
       },
       set(val) {
-        this.buildInput({ inputKey: 'zipInput', row: { code: val } })
+        this.buildInput({ inputKey: 'zipInput', row: { zipcode: val } })
       },
     },
   },

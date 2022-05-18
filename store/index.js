@@ -5,7 +5,7 @@ export const state = () => ({
   items: [],
   isDetail: false,
   zipInput: {
-    code: '',
+    zipcode: '',
     pref: '',
     town: '',
     city: '',
