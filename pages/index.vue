@@ -108,7 +108,7 @@ export default {
       this.isCompleted = false
       this.isLoading = true
       if (
-        this.zipInput.code === '' &&
+        this.zipInput.zipcode === '' &&
         this.zipInput.pref === '' &&
         this.zipInput.city === '' &&
         this.zipInput.town === ''
@@ -124,7 +124,7 @@ export default {
         'search',
         'like',
         {
-          code: this.zipInput.code,
+          zipcode: this.zipInput.zipcode,
           pref: this.zipInput.pref,
           city: this.zipInput.city,
           town: this.zipInput.town,
@@ -138,7 +138,7 @@ export default {
       } else {
         this.isCompleted = true
         const items = []
-        for (const user of res.result) {
+        for (const user of res.data) {
           items.push(user)
         }
         this.addState({ stateKey: 'items', data: items })
@@ -148,7 +148,7 @@ export default {
     clearForm() {
       this.hasValidError = false
       this.isCompleted = false
-      this.buildInput({ inputKey: 'zipInput', row: { code: '' } })
+      this.buildInput({ inputKey: 'zipInput', row: { zipcode: '' } })
       this.buildInput({ inputKey: 'zipInput', row: { pref: '' } })
       this.buildInput({ inputKey: 'zipInput', row: { city: '' } })
       this.buildInput({ inputKey: 'zipInput', row: { town: '' } })
