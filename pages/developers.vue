@@ -23,8 +23,7 @@ curl 'https://zsearch-api.becom.co.jp/' \
 --verbose \
 --header 'Content-Type: application/json' \
 --header 'accept: application/json' \
---data-binary '{"resource":"search","method":"like","apikey":"becom","params":{"zipcode":"8120041"}}'
-        </pre>
+--data-binary '{"resource":"search","method":"like","apikey":"becom","params":{"zipcode":"8120041"}}'</pre>
         <b-card-text>
           下記のようなレスポンスが返却されれば正常です。（みやすくするために整形していますが本来は一行で返却されます。）
         </b-card-text>
@@ -57,25 +56,26 @@ curl 'https://zsearch-api.becom.co.jp/' \
       created_ts: '2022-05-18 12:40:01',
     },
   ],
-}
-        </pre>
+}</pre>
       </b-card>
     </div>
 
     <div class="my-3">
       <b-card header="リクエストパラメーターについて" header-tag="header" title="">
         <b-card-text>
-          下記の場合は郵便番号のみの検索です。
+          最初にリクエストした時の条件は郵便番号のみの検索です。
         </b-card-text>
         <pre class="bg-dark text-white p-3">"params":{"zipcode":"8120041"}</pre>
-        <b-card-text>「福岡県」という言葉で検索の場合</b-card-text>
+        <b-card-text>「福岡県」という言葉で検索の場合は下記のようにしてみてください。</b-card-text>
         <pre class="bg-dark text-white p-3">"params":{"pref":"福岡県"}</pre>
-        <b-card-text>ものすごい量のレスポンスがありますがおそらく下記のような内容だと思います。</b-card-text>
-        <pre class="bg-dark text-white p-3">{"version":"2022-04-28","count":3303,"message":"検索件数: 3303","data":[{...}]}</pre>
+        <b-card-text>実行するとものすごい量のレスポンスあります。おそらく下記のような内容だと思います。</b-card-text>
+        <pre class="bg-dark text-white p-3">{"version":"2022-04-28","count":3303,"message":"検索件数: 3303","data":[...]}</pre>
         <b-card-text>今のところ検索条件は「郵便番号」、「都道府県」、「市町村」、「以下の住所」が使えます、下記がその一例です。</b-card-text>
         <pre class="bg-dark text-white p-3">"params":{"zipcode":"812","pref":"福岡","city":"福岡","town":"吉"}</pre>
         <b-card-text>上記の条件で検索すると下記のようなレスポンスが返ってくると思います。二件返ってきました。</b-card-text>
-        <pre class="bg-dark text-white p-3">{"message":"検索件数: 2","count":2,"version":"2022-04-28","data":[{...}]}</pre>
+        <pre class="bg-dark text-white p-3">{"message":"検索件数: 2","count":2,"version":"2022-04-28","data":[...]}</pre>
+        <b-card-text>SQL表現では、検索方法は各条件が「かつ」<kbd>AND</kbd>で言葉が<kbd>LIKE</kbd>前方一致検索「'[条件]%'」になります。</b-card-text>
+        <pre class="bg-dark text-white p-3">SELECT * FROM post WHERE zipcode LIKE "812%" AND pref LIKE "福岡%" AND city "福岡%" AND town LIKE "吉%"</pre>
       </b-card>
     </div>
   </b-container>
