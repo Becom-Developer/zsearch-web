@@ -88,10 +88,6 @@ export default {
       hasError: false,
       hasValidError: false,
       isLoading: false,
-      res: {
-        zserch: {},
-        auth: {},
-      },
       reloadURL: '',
     }
   },
@@ -120,16 +116,7 @@ export default {
         this.addState({ stateKey: 'isDetail', data: false })
         return
       }
-      const res = await this.$zsearchapi([
-        'search',
-        'like',
-        {
-          zipcode: this.zipInput.zipcode,
-          pref: this.zipInput.pref,
-          city: this.zipInput.city,
-          town: this.zipInput.town,
-        },
-      ])
+      const res = await this.$zsearchApi(['search', 'like', this.zipInput])
       this.addState({ stateKey: 'items', data: [] })
       this.addState({ stateKey: 'zipcodeDetail', data: {} })
       this.addState({ stateKey: 'isDetail', data: false })
