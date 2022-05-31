@@ -16,6 +16,13 @@ export default {
       { name: 'format-detection', content: 'telephone=no' },
       { name: 'msapplication-TileColor', content: '#da532c' },
       { name: 'theme-color', content: '#ffffff' },
+      { name: 'twitter:card', content: 'summary' },
+      { name: 'twitter:title', content: 'zsearch-web' },
+      {
+        name: 'twitter:description',
+        content: '郵便番号、住所検索なら zsearch-web 開発者向けwebapiも無料で配信',
+      },
+      { name: 'twitter:image', content: 'https://zsearch-web.becom.co.jp/zsearch-demo.jpg' },
     ],
     link: [
       {
