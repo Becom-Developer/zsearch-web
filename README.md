@@ -4,7 +4,7 @@
 
 ## Setup
 
-事前に`nvm`を使えるようにしておき指定バージョンのnode.jsを使えるように
+事前に`nvm`を使えるようにしておき指定バージョンの`node.js`を使えるように
 
 git clone にてソースコードを配置後プロジェクト配下にて指定のモジュールをインストール
 
@@ -32,6 +32,13 @@ open 'http://localhost:4010/'
 
 ```zsh
 npm run generate-prod
+scp -r ~/github/zsearch-web/dist/ becom2022@becom2022.sakura.ne.jp:~/www/zsearch-web/
+```
+
+公開環境(stg)
+
+```zsh
+npm run generate-stg
 scp -r ~/github/zsearch-web/dist/ becom2022@becom2022.sakura.ne.jp:~/www/zsearch-web/
 ```
 
@@ -66,6 +73,17 @@ ssh becom2022@becom2022.sakura.ne.jp
 mkdir ~/www/zsearch-web
 # 公開環境へ `scp` コマンドで送信
 scp -r ~/github/zsearch-web/dist/ becom2022@becom2022.sakura.ne.jp:~/www/zsearch-web/
+```
+
+公開環境(stg)
+
+```sh
+npm run generate-stg
+# 初回のみ公開環境でディレクトを作成しておく
+ssh becom2022@becom2022.sakura.ne.jp
+mkdir ~/www/zsearch-stg-web
+# 公開環境へ `scp` コマンドで送信
+scp -r ~/github/zsearch-web/dist/ becom2022@becom2022.sakura.ne.jp:~/www/zsearch-stg-web/
 ```
 
 ## Build Setup
