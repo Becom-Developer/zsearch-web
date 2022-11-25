@@ -17,24 +17,33 @@
     >
       Submit
     </button>
-    <form id="demo-form" action="https://www.google.com/recaptcha/api/siteverify" method="post">
-      <input type="hidden" name="secret" value="6LcivDEjAAAAAOxO0_k4VwMJ4_rz6ZUnIXQQlRcX">
-      <input type="hidden" name="response" value="">
+    <form
+      id="demo-form"
+      action="https://www.google.com/recaptcha/api/siteverify"
+      method="post"
+    >
+      <input
+        type="hidden"
+        name="secret"
+        value="6LcivDEjAAAAAOxO0_k4VwMJ4_rz6ZUnIXQQlRcX"
+      />
+      <input type="hidden" name="response" value="" />
     </form>
     <script>
-      console.log('----------++++++-')
       function onSubmit(token) {
-        console.log('-----------')
-        console.log(token)
-
-        const form = document.getElementById('demo-form')
-        console.log(form)
-        form.response.value = token
-        console.log(form.response)
-
-
-
+        document.getElementById('demo-form').response.value = token
+        console.log(document.getElementById('demo-form'))
+        // フォームタグで送信するやり方
         document.getElementById('demo-form').submit()
+        // ajax の呼び出しはクロスドメイン制限があるのでうまくいかない
+        // バックエンドサーバーからリクエストすることを前提としているようです。
+        // const form = new FormData(document.getElementById('demo-form'))
+        // fetch('https://www.google.com/recaptcha/api/siteverify', {
+        //   method: 'POST',
+        //   body: form,
+        // })
+        //   .then((response) => response.json())
+        //   .then((data) => console.log(data))
       }
     </script>
   </body>
