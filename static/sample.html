@@ -11,17 +11,29 @@
     <p>re captcha test!!</p>
     <button
       class="g-recaptcha"
-      data-sitekey="6LeuOi4jAAAAAG2s-ktkM6b3iU8McrtZvFOVm2pc"
+      data-sitekey="6LcivDEjAAAAAOtiM2RuSJeL2XG9Hw1zVFpGadfE"
       data-callback="onSubmit"
-      data-action="submit"
+      data-action="submitbutton"
     >
       Submit
     </button>
+    <form id="demo-form" action="https://www.google.com/recaptcha/api/siteverify" method="post">
+      <input type="hidden" name="secret" value="6LcivDEjAAAAAOxO0_k4VwMJ4_rz6ZUnIXQQlRcX">
+      <input type="hidden" name="response" value="">
+    </form>
     <script>
       console.log('----------++++++-')
       function onSubmit(token) {
         console.log('-----------')
         console.log(token)
+
+        const form = document.getElementById('demo-form')
+        console.log(form)
+        form.response.value = token
+        console.log(form.response)
+
+
+
         document.getElementById('demo-form').submit()
       }
     </script>
