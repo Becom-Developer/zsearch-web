@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <p>re captcha test!!</p>
+    <button
+      class="g-recaptcha"
+      data-sitekey="6LcivDEjAAAAAOtiM2RuSJeL2XG9Hw1zVFpGadfE"
+      data-callback="onSubmit"
+      data-action="submitbutton"
+    >
+      Submit
+    </button>
+    <form
+      id="demo-form"
+      action="https://www.google.com/recaptcha/api/siteverify"
+      method="post"
+    >
+      <input
+        type="hidden"
+        name="secret"
+        value="6LcivDEjAAAAAOxO0_k4VwMJ4_rz6ZUnIXQQlRcX"
+      />
+      <input type="hidden" name="response" value="" />
+    </form>
+    <script>
+      function onSubmit(token) {
+        document.getElementById('demo-form').response.value = token
+        console.log(document.getElementById('demo-form'))
+        // フォームタグで送信するやり方
+        document.getElementById('demo-form').submit()
+        // ajax の呼び出しはクロスドメイン制限があるのでうまくいかない
+        // バックエンドサーバーからリクエストすることを前提としているようです。
+        // const form = new FormData(document.getElementById('demo-form'))
+        // fetch('https://www.google.com/recaptcha/api/siteverify', {
+        //   method: 'POST',
+        //   body: form,
+        // })
+        //   .then((response) => response.json())
+        //   .then((data) => console.log(data))
+      }
+    </script>
+  </body>
+</html>
