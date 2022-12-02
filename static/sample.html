@@ -9,14 +9,42 @@
   </head>
   <body>
     <p>re captcha test!!</p>
-    <button
-      class="g-recaptcha"
-      data-sitekey="6LcivDEjAAAAAOtiM2RuSJeL2XG9Hw1zVFpGadfE"
-      data-callback="onSubmit"
-      data-action="submitbutton"
-    >
-      Submit
-    </button>
+    <div>
+      <button
+        class="g-recaptcha"
+        data-sitekey="6LcivDEjAAAAAOtiM2RuSJeL2XG9Hw1zVFpGadfE"
+        data-callback="onSubmit1"
+        data-action="Submit1"
+      >
+        Submit1
+      </button>
+      <span> token を取得するテスト</span>
+    </div>
+
+    <div>
+      <button
+        class="g-recaptcha"
+        data-sitekey="6LcivDEjAAAAAOtiM2RuSJeL2XG9Hw1zVFpGadfE"
+        data-callback="onSubmit2"
+        data-action="Submit2"
+      >
+        Submit2
+      </button>
+      <span> form タグを使ってリクエストを送信</span>
+    </div>
+
+    <div>
+      <button
+        class="g-recaptcha"
+        data-sitekey="6LcivDEjAAAAAOtiM2RuSJeL2XG9Hw1zVFpGadfE"
+        data-callback="onSubmit3"
+        data-action="Submit3"
+      >
+        Submit3
+      </button>
+      <span> ajax なやり方、アプリサーバー経由で送信</span>
+    </div>
+
     <form
       id="demo-form"
       action="https://www.google.com/recaptcha/api/siteverify"
@@ -30,11 +58,21 @@
       <input type="hidden" name="response" value="" />
     </form>
     <script>
-      function onSubmit(token) {
+      function onSubmit1(token) {
+        document.getElementById('demo-form').response.value = token
+        console.log(document.getElementById('demo-form'))
+      }
+
+      function onSubmit2(token) {
         document.getElementById('demo-form').response.value = token
         console.log(document.getElementById('demo-form'))
         // フォームタグで送信するやり方
         document.getElementById('demo-form').submit()
+      }
+
+      function onSubmit3(token) {
+        document.getElementById('demo-form').response.value = token
+        console.log(document.getElementById('demo-form'))
         // ajax の呼び出しはクロスドメイン制限があるのでうまくいかない
         // バックエンドサーバーからリクエストすることを前提としているようです。
         // const form = new FormData(document.getElementById('demo-form'))
@@ -44,6 +82,19 @@
         // })
         //   .then((response) => response.json())
         //   .then((data) => console.log(data))
+        const data = {
+          resource: 'grecaptcha',
+          method: 'siteverify',
+          apikey: 'becom',
+          params: { response: token },
+        }
+        fetch('http://localhost:3010/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        })
+          .then((response) => response.json())
+          .then((data) => console.log(data))
       }
     </script>
   </body>
